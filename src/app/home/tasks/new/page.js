@@ -25,7 +25,7 @@ export default function New() {
         body: JSON.stringify({
           title,
           description,
-          status: "inprogress",
+          status: "in progress",
           userId: userid,
         }),
       });

@@ -20,7 +20,11 @@ export async function PUT(req) {
   task.title = title;
   task.description = description;
   if (status !== undefined) task.status = status;
-
+  tasks.splice(
+    tasks.findIndex((task) => task.id === Number(id)),
+    1,
+    task
+  );
   await writeTasks(tasks);
   return new Response(JSON.stringify(task));
 }
