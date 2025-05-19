@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import TaskCard from "./TaskCard";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function TasksClient({ initialTasks, userId }) {
   const [tasks, setTasks] = useState(initialTasks);
