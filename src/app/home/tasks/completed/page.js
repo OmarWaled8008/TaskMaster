@@ -14,5 +14,7 @@ export default async function Completed() {
     );
     const tasks = await res.json();
   
-    return <TasksClient initialTasks={tasks} userId={userId} />;
+    return (
+      <TasksClient initialTasks={tasks} userId={userId} page={"Completed"} />
+    );
 }

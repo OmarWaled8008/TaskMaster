@@ -14,5 +14,5 @@ export default async function Pending() {
   );
   const tasks = await res.json();
 
-  return <TasksClient initialTasks={tasks} userId={userId} />;
+  return <TasksClient initialTasks={tasks} userId={userId} page={"Pending"} />;
 }

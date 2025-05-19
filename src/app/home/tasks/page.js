@@ -13,5 +13,5 @@ export default async function Tasks() {
   );
   const tasks = await res.json();
 
-  return <TasksClient initialTasks={tasks} userId={userId} />;
+  return <TasksClient initialTasks={tasks} userId={userId} page={"All"} />;
 }
