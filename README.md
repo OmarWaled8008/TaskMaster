@@ -1,36 +1,121 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TaskMaster 
+**Modern Task Management App Built with Next.js, Tailwind CSS, and NextAuth**
+
+TaskMaster is a full-stack, themeable task management application that empowers users to create, track, and manage their daily tasks with ease. Built using the latest technologies from the Next.js ecosystem, it offers a secure, responsive, and intuitive user experience.
+
+---
+
+## Key Features
+
+- **Authentication**
+  - Secure login with **Email**, **Google**, and **GitHub** via `next-auth`
+- **Task Management**
+  - Create, edit, delete, and view tasks by status: `Pending`, `In Progress`, and `Completed`
+- **Personalization**
+  - Each user sees and manages only their own tasks
+- **Theming**
+  - Light, Dark, and System theme support with `next-themes`
+- **Responsive Design**
+  - Fully responsive UI using Tailwind CSS v4 and ShadCN UI components
+- **Middleware Protection**
+  - Routes under `/home` are protected using custom `middleware.js`
+
+---
+
+## Tech Stack
+
+| Category        | Technology                         |
+|----------------|-------------------------------------|
+| Framework       | [Next.js 15 (App Router)](https://nextjs.org) |
+| UI Components   | [Tailwind CSS v4](https://tailwindcss.com), [ShadCN UI](https://ui.shadcn.com) |
+| Authentication  | [NextAuth.js](https://next-auth.js.org) |
+| Icons           | Lucide, Heroicons, Font Awesome    |
+| Theming         | [next-themes](https://github.com/pacocoursey/next-themes) |
+| Fonts           | [Geist](https://vercel.com/font) via `next/font` |
+| State & Data    | JSON mock files (`users.json`, `task.json`) |
+| Deployment      | Ready for [Vercel](https://vercel.com) |
+
+---
+
+## Project Structure
+
+```bash
+.
+├── app/                  # Pages and API routes (App Router)
+│   ├── home/             # Task views, creation, and profile
+│   └── api/              # API endpoints for tasks & users
+├── components/           # Shared UI components
+├── data/                 # Mock data storage (tasks, users)
+├── public/               # Static assets (images, icons)
+├── styles/               # Tailwind config and global styles
+├── utils/                # Custom hooks and helpers
+├── middleware.js         # Route access control
+└── ...
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/taskmaster.git
+cd taskmaster
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Environment Variables
+
+Create a `.env.local` file in the root directory with the following variables:
+
+```env
+NEXTAUTH_SECRET=your_generated_secret
+NEXTAUTH_URL=http://localhost:3000
+NEXT_PUBLIC_URL=http://localhost:3000
+```
+
+> Also add Google and GitHub OAuth client IDs and secrets if enabled.
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open your browser at [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Available Scripts
 
-## Learn More
+| Command            | Description                        |
+|--------------------|------------------------------------|
+| `npm run dev`      | Start development server           |
+| `npm run build`    | Create production build            |
+| `npm run start`    | Start production server            |
+| `npm run lint`     | Run ESLint to check for issues     |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Screenshots
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+> *(Add screenshots in `/public` and reference them here)*
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔗 Useful Resources
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [NextAuth Documentation](https://next-auth.js.org)
+- [Tailwind CSS Documentation](https://tailwindcss.com)
+- [ShadCN UI Components](https://ui.shadcn.com)
+
+
+
+

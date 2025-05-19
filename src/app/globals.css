@@ -1,26 +1,85 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@theme {
+  --color-background: var(--accent-900);
+  --color-accent-800: var(--accent-800);
+  --color-accent-700: var(--accent-700);
+  --color-accent-600: var(--accent-600);
+  --color-accent-500: var(--accent-500);
+  --color-accent-400: var(--accent-400);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+
+  --color-text-color: var(--second-200);
+  --color-second-100: var(--second-100);
+  --color-second-50: var(--second-50);
+
+  --color-toggle-theme: var(--toggle-theme);
+}
+
+@layer base {
+  [data-theme="light"] {
+    --accent-900: #f9f5f5;
+    --accent-800: #ede0df;
+    --accent-700: #cbb7b5;
+    --accent-600: #a67875;
+    --accent-500: #7f504c;
+    --accent-400: #5c3a38;
+
+    --primary: #d63332;
+    --primary-hover: #b12a2a;
+
+    --second-200: #3a2e2d;
+    --second-100: #5a4a49;
+    --second-50: #7f6b6a;
+
+    --toggle-theme: #f9f5f5;
+    --color-toggle-theme: #1b1b1b;
+
+    --accent-green: #3a9d23;
+    --accent-yellow: #d9a520;
+  }
+
+  [data-theme="dark"] {
+    --accent-900: #1b0f1a;
+    --accent-800: #2e1a2a;
+    --accent-700: #462730;
+    --accent-600: #632329;
+    --accent-500: #7c3130;
+    --accent-400: #9a4644;
+
+    --primary: #f25551;
+    --primary-hover: #d4433f;
+
+    --second-200: #feede1;
+    --second-100: #fffbff;
+    --second-50: #f9f6f7;
+
+    --toggle-theme: #f9f5f5;
+    --color-toggle-theme: #f25551;
+
+    --accent-green: #6abb4a;
+    --accent-yellow: #e1b950;
+  }
+}
+
+.img-bg {
+  background-image: url("/premium_photo-1683309568772-57011d6c1b7b.avif");
+  background-size: cover;
+  background-position: center;
 }
