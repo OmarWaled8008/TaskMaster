@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function middleware(request) {
   const session = request.cookies.get("__Secure-authjs.session-token")?.value;
+  console.log("Session Token:", session);
   const protectedPaths = [
     "/home",
     "/home/tasks",
