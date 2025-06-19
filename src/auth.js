@@ -28,11 +28,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
 
       authorize: async (credentials) => {
-        // const user  = pool.query(
-        //   `SELECT * FROM users WHERE email = $1 AND password = $2`,
-        //   [credentials.email, credentials.password]
-        // );
-
         const passTrue = users.find(
           (user) =>
             user.email === credentials.email &&
