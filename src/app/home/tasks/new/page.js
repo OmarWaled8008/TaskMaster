@@ -15,6 +15,11 @@ export default function New() {
     e.preventDefault();
     setLoading(true);
     setMessage("");
+    if (!userid) {
+      setMessage("You must be logged in to create a task.");
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch("/api/tasks", {

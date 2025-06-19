@@ -1,10 +1,21 @@
-import tasks from "@/data/task.json";
+import pool from "@/lib/pgConnection";
 
 export async function GET(request, { params }) {
-  const awaitedParams = await params;
-  const { userid } = awaitedParams;
-  const userTasks = tasks.filter((task) => {
-    return task.userId === Number(userid);
-  });
-  return new Response(JSON.stringify( userTasks ));
+  const { userid } = params;
+
+  try {
+    const result = await pool.query("SELECT * FROM tasks WHERE userId = $1", [
+      userid,
+    ]);
+
+    return new Response(JSON.stringify(result.rows), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    console.error("GET /tasks/[userid] error:", err);
+    return new Response(JSON.stringify({ error: "Failed to fetch tasks" }), {
+      status: 500,
+    });
+  }
 }

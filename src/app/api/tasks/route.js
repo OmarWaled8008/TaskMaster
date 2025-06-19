@@ -4,10 +4,16 @@ export async function POST(req) {
   try {
     const { title, description, status, userId } = await req.json();
 
+    if (!title || !description || !status || !userId) {
+      return new Response(
+        JSON.stringify({ error: "Missing required fields" }),
+        { status: 400 }
+      );
+    }
+
     const result = await pool.query(
-      `INSERT INTO tasks (title, description, status, "userId") 
-       VALUES ($1, $2, $3, $4) 
-       RETURNING *`,
+      `INSERT INTO tasks (title, description, status, "userId")
+       VALUES ($1, $2, $3, $4) RETURNING *`,
       [title, description, status, userId]
     );
 
@@ -22,7 +28,7 @@ export async function POST(req) {
       }
     );
   } catch (err) {
-    console.error("POST /tasks error:", err);
+    console.error("POST /tasks error:", err.stack);
     return new Response(JSON.stringify({ error: "Failed to create task" }), {
       status: 500,
     });
