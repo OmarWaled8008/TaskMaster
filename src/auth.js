@@ -63,12 +63,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
           existingUser = insertResult.rows[0];
         }
-
-        // Make sure something is returned
         return existingUser ?? false;
       } catch (err) {
         console.error("signIn error:", err);
-        return false; // returning false here shows AccessDenied
+        return false; 
       }
     },
 
