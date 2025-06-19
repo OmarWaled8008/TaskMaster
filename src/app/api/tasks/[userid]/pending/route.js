@@ -1,36 +1,49 @@
-import tasks from "@/data/task.json";
-import fs from "fs/promises";
-import path from "path";
-
-const taskPath = path.join(process.cwd(), "src", "data", "task.json");
-async function writeTasks(tasks) {
-  await fs.writeFile(taskPath, JSON.stringify(tasks), "utf-8");
-}
+import pool from "@/lib/pgConnection";
 
 export async function GET(request, { params }) {
-  const awaitedParams = await params;
-  const { userid } = awaitedParams;
-  const userTasks = tasks.filter((task) => {
-    return task.userId === Number(userid) && task.status === "pending";
-  });
-  return new Response(JSON.stringify(userTasks));
+  const { userid } = params;
+
+  try {
+    const { rows } = await pool.query(
+      `SELECT * FROM tasks WHERE userid = $1 AND status = 'pending'`,
+      [userid]
+    );
+
+    return new Response(JSON.stringify(rows), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (err) {
+    console.error("GET pending tasks error:", err);
+    return new Response(JSON.stringify({ message: "Server error" }), {
+      status: 500,
+    });
+  }
 }
 
 export async function PATCH(request, { params }) {
-  const awaitedParams = await params;
-  const { userid } = awaitedParams;
-  const body = await request.json();
-  const { id } = body;
+  const { userid } = params;
+  const { id } = await request.json();
 
-  const userTask = tasks.find((task) => {
-    return id === task.id;
-  });
-  userTask.status = "pending";
-  tasks.splice(
-    tasks.findIndex((task) => task.id === Number(id)),
-    1,
-    userTask
-  );
-  await writeTasks(tasks);
-  return new Response({ message: "Task completed successfully" });
+  try {
+    const result = await pool.query(
+      `UPDATE tasks SET status = 'pending' WHERE id = $1 AND userid = $2 RETURNING *`,
+      [id, userid]
+    );
+
+    if (result.rowCount === 0) {
+      return new Response(JSON.stringify({ message: "Task not found" }), {
+        status: 404,
+      });
+    }
+
+    return new Response(JSON.stringify({ message: "Task marked as pending" }), {
+      status: 200,
+    });
+  } catch (err) {
+    console.error("PATCH pending task error:", err);
+    return new Response(JSON.stringify({ message: "Server error" }), {
+      status: 500,
+    });
+  }
 }
