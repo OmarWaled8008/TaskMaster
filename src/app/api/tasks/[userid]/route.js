@@ -4,7 +4,7 @@ export async function GET(request, { params }) {
   const { userid } = params;
 
   try {
-    const result = await pool.query("SELECT * FROM tasks WHERE userId = $1", [
+    const result = await pool.query("SELECT * FROM tasks WHERE userid = $1", [
       userid,
     ]);
 

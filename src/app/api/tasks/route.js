@@ -12,7 +12,7 @@ export async function POST(req) {
     }
 
     const result = await pool.query(
-      `INSERT INTO tasks (title, description, status, "userid")
+      `INSERT INTO tasks (title, description, status, userid)
        VALUES ($1, $2, $3, $4) RETURNING *`,
       [title, description, status, userid]
     );
