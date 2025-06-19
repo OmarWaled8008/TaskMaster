@@ -31,7 +31,7 @@ export default function New() {
           title,
           description,
           status: "in progress",
-          userId: userid,
+          userid,
         }),
       });
 

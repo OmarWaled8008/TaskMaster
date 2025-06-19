@@ -2,9 +2,9 @@ import pool from "@/lib/pgConnection";
 
 export async function POST(req) {
   try {
-    const { title, description, status, userId } = await req.json();
+    const { title, description, status, userid } = await req.json();
 
-    if (!title || !description || !status || !userId) {
+    if (!title || !description || !status || !userid) {
       return new Response(
         JSON.stringify({ error: "Missing required fields" }),
         { status: 400 }
@@ -14,7 +14,7 @@ export async function POST(req) {
     const result = await pool.query(
       `INSERT INTO tasks (title, description, status, "userId")
        VALUES ($1, $2, $3, $4) RETURNING *`,
-      [title, description, status, userId]
+      [title, description, status, userid]
     );
 
     return new Response(
