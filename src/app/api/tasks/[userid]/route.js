@@ -2,7 +2,7 @@ import pool from "@/lib/pgConnection";
 
 export async function GET(request, { params }) {
   const { userid } = params;
-
+  console.log(`GET /tasks/${userid} called`);
   try {
     const result = await pool.query("SELECT * FROM tasks WHERE userid = $1", [
       userid,

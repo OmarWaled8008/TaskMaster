@@ -4,7 +4,6 @@ import TasksClient from "@/components/TasksClient";
 export default async function Tasks() {
   const session = await auth();
   const userId = session.user.id;
-  console.log(`Fetching tasks for user ID: ${userId}`);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_URL}/api/tasks/${userId}`,
     {
