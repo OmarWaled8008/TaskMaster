@@ -32,7 +32,7 @@ export default async function Home() {
                   Login
                 </Link>
                 <Link
-                  href="/signup"
+                  href="/register"
                   className="text-sm font-medium bg-primary px-3 py-2 hover:bg-transparent hover:outline-1 hover:outline-primary rounded-md transition-colors duration-200"
                 >
                   Sign Up

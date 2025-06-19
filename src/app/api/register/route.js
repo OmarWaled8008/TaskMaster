@@ -1,6 +1,7 @@
 import users from "@/data/users.json";
 import fs from "fs/promises";
 import path from "path";
+import pool from "@/lib/pgConnection";
 
 const userPath = path.join(process.cwd(), "src", "data", "users.json");
 async function readUsers() {
@@ -13,6 +14,12 @@ async function writeUsers(users) {
 
 export async function POST(req) {
   const body = await req.json();
+
+  const user = await pool.query(`SELECT * FROM users WHERE email = $1`, [
+    body.email,
+  ]);
+  console.log(user);
+
   const users = await readUsers();
   const passTrue = users.find(
     (user) => user.email === body.email && user.password === body.password

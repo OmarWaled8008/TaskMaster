@@ -88,7 +88,7 @@ export default function TasksClient({ initialTasks, userId , page}) {
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-4 border-b-2 border-accent-700">
         <h1 className="text-2xl">{page} - Tasks</h1>
-  s      <Link href="/home/tasks/new" className="flex px-4 py-2 text-primary ">
+       <Link href="/home/tasks/new" className="flex px-4 py-2 text-primary ">
           <PlusCircleIcon className="h-6 w-6 mr-2 text-primary" />
           Add New Task
         </Link>

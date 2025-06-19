@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import GitHub from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
+import pool from "@/lib/pgConnection";
 import users from "./data/users.json";
 import fs from "fs/promises";
 import path from "path";
@@ -27,6 +28,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
 
       authorize: async (credentials) => {
+        // const user  = pool.query(
+        //   `SELECT * FROM users WHERE email = $1 AND password = $2`,
+        //   [credentials.email, credentials.password]
+        // );
+
         const passTrue = users.find(
           (user) =>
             user.email === credentials.email &&
