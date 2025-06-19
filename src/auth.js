@@ -28,15 +28,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
 
       authorize: async (credentials) => {
-        const passTrue = users.find(
-          (user) =>
-            user.email === credentials.email &&
-            user.password === credentials.password
+        const { email, password } = credentials;
+
+        const result = await pool.query(
+          "SELECT * FROM users WHERE email = $1 AND password = $2",
+          [email, password]
         );
-        if (!passTrue) {
+
+        if (result.rows.length === 0) {
           throw new Error("Invalid credentials.");
         }
-        return passTrue;
+
+        return result.rows[0];
       },
     }),
   ],
@@ -45,37 +48,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account }) {
-      const usersData = await readUsers();
+      const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+        user.email,
+      ]);
 
-      let existingUser = usersData.find((u) => u.email === user.email);
+      let existingUser = result.rows[0];
 
       if (!existingUser) {
-        const newUser = {
-          id: usersData.length ? usersData[usersData.length - 1].id + 1 : 1,
-          name: user.name || user.email.split("@")[0] || "User",
-          email: user.email,
-          password: "",
-        };
-        usersData.push(newUser);
-        await writeUsers(usersData);
-        existingUser = newUser;
+        const insertResult = await pool.query(
+          "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
+          [user.name || user.email.split("@")[0] || "User", user.email, ""]
+        );
+        existingUser = insertResult.rows[0];
       }
+
       return existingUser;
     },
 
     async jwt({ token, user }) {
       if (user) {
-        const usersData = await readUsers();
-        const matchedUser = usersData.find((u) => u.email === user.email);
-        if (matchedUser) {
-          token.id = matchedUser.id;
-          token.email = matchedUser.email;
-          token.name = matchedUser.name;
-        } else {
-          token.id = user.id;
-          token.email = user.email;
-          token.name = user.name;
-        }
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.name;
       }
       return token;
     },
