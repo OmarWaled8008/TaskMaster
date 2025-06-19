@@ -48,21 +48,28 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     async signIn({ user, account }) {
-      const result = await pool.query("SELECT * FROM users WHERE email = $1", [
-        user.email,
-      ]);
-
-      let existingUser = result.rows[0];
-
-      if (!existingUser) {
-        const insertResult = await pool.query(
-          "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
-          [user.name || user.email.split("@")[0] || "User", user.email, ""]
+      try {
+        const result = await pool.query(
+          "SELECT * FROM users WHERE email = $1",
+          [user.email]
         );
-        existingUser = insertResult.rows[0];
-      }
 
-      return existingUser;
+        let existingUser = result.rows[0];
+
+        if (!existingUser) {
+          const insertResult = await pool.query(
+            "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *",
+            [user.name || user.email.split("@")[0] || "User", user.email, ""]
+          );
+          existingUser = insertResult.rows[0];
+        }
+
+        // Make sure something is returned
+        return existingUser ?? false;
+      } catch (err) {
+        console.error("signIn error:", err);
+        return false; // returning false here shows AccessDenied
+      }
     },
 
     async jwt({ token, user }) {
