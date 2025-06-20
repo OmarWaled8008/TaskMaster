@@ -47,13 +47,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     strategy: "jwt",
   },
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ user, account, profile }) {
       try {
         const result = await pool.query(
           "SELECT * FROM users WHERE email = $1",
           [user.email]
         );
-
         let existingUser = result.rows[0];
 
         if (!existingUser) {
@@ -63,10 +62,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           );
           existingUser = insertResult.rows[0];
         }
-        return existingUser ?? false;
+
+        user.id = existingUser.id;
+
+        return true;
       } catch (err) {
         console.error("signIn error:", err);
-        return false; 
+        return false;
       }
     },
 
